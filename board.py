@@ -1,5 +1,23 @@
 import tkinter as tk
 from PIL import Image, ImageTk
+STEP=10
+def move(event):
+    global games
+    if event.keysym == "Up":
+        games.moves(0, -STEP,bis)
+        
+    elif event.keysym == "Down":
+        games.moves( 0, STEP,bis)
+        
+    elif event.keysym == "Left":
+        games.moves( -STEP, 0,bis)
+        
+    elif event.keysym == "Right":
+        games.moves(STEP, 0,bis)
+        
+
+
+
 
 class game_board:
     def __init__(self, w, h, colors,labels):
@@ -22,6 +40,7 @@ class game_board:
         self.bitmaps = []
         self.bmp = []   # referência às PhotoImage (IMPORTANTE)
         self.abmp = []
+        
     def loads(self, l: list):
         self.bitmaps = l
 
@@ -49,16 +68,30 @@ class game_board:
             # desenhar no canvas
             a=self.canvas.create_image(x, y, image=self.bmp[n], anchor="nw")
             self.abmp.append(a)
-            
+    
+    def moves(self,x,y,n):
+        self.canvas.move(self.abmp[n], x, y)
+    #def keyhandle(self):
+        # Capturar teclas
     def starts(self):
+        #self.keyhandle()
         self.root.mainloop()
 
 
 # -------------------------------
 l = ["pin.png", "bit.png"]
+bis=0
+bbis=1
+pines=0
 games = game_board(640, 480, "black","My game")
 games.loads(l)
-games.addbmp(0,0,1)
+games.addbmp(0,0,bbis)
 for n in range(10):
-    games.addbmp(n*40,80,0)
+    games.addbmp(n*40,80,pines)
+games.root.bind("<Up>", move)
+games.root.bind("<Down>", move)
+games.root.bind("<Left>", move)
+games.root.bind("<Right>",move)        
+
 games.starts()
+
