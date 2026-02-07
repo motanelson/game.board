@@ -22,9 +22,13 @@ def move(event):
     elif event.keysym == "Right":
         games.moves(STEP, 0,bbis)
     elif event.keysym == "space":
+        print("space")
         games.reportposxy()
-
-
+    
+    t=games.colision(bbis,1,bbis)
+    if t!=-1:
+        games.scoreplus(100)
+        games.moves(int(-(games.w*1.5)),0,t)
 
 #import game_board
 class game_board:
@@ -196,6 +200,17 @@ class game_board:
             xxx=0         
                 
         self.xy = xy
+    def colision(self,n,n1,n2):
+        xx=self.posxy[n][0]
+        yy=self.posxy[n][1]
+        
+        for nn in range(n1,n2):
+            #print(nn)
+            x=self.posxy[nn][0] 
+            y=self.posxy[nn][1]
+            if abs(xx-x)<6 and abs(yy-y)<6:
+                return nn
+        return -1    
     def reportposxy(self):
         print(self.posxy)
     def report(self):
@@ -214,8 +229,6 @@ games.addbmp(0,0,bis)
 games.loadmaps("level.txt")
 games.setxy(0,0,255)
 games.reportcsv()
-games.scoreplus(200)
-games.scoreplus(200)
 games.reportposxy()
 games.starts()
 
