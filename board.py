@@ -8,8 +8,9 @@ pii=10
 bis=1
 bbis=pii+1
 pines=2
+ccounter=0
 def move(event):
-    global games,bbis
+    global games,bbis,ccounter
     if event.keysym == "Up":
         games.moves(0, -STEP,bbis)
         
@@ -22,14 +23,17 @@ def move(event):
     elif event.keysym == "Right":
         games.moves(STEP, 0,bbis)
     elif event.keysym == "space":
-        print("space")
+        
         games.reportposxy()
     
     t=games.colision(bbis,1,bbis)
+    
     if t!=-1:
+        ccounter=ccounter+1
         games.scoreplus(100)
         games.moves(int(-(games.w*1.5)),0,t)
-
+        if ccounter==bbis-1:
+            print("game over")
 #import game_board
 class game_board:
     def __init__(self, w, h, colors,labels):
