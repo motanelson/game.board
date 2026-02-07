@@ -18,7 +18,8 @@ def move(event):
         
     elif event.keysym == "Right":
         games.moves(STEP, 0,bbis)
-        
+    elif event.keysym == "space":
+        games.reportposxy()
 
 
 
@@ -85,6 +86,7 @@ class game_board:
     def setpos(self,x,y,n):
         counter=0
         posxy=[]
+        #print("change"+str(x)+" : "+str(y))
         for a in self.posxy:
             if counter==n:
                 xxyy=[x]+[y]
@@ -97,13 +99,18 @@ class game_board:
     
     def moves(self,x,y,n):
         self.canvas.move(self.abmp[n], x, y)
-        self.setpos(x,y,n)
+        xx=self.posxy[n][0]
+        yy=self.posxy[n][1]
+        xx=xx+x
+        yy=yy+y
+        self.setpos(xx,yy,n)
     def keyhandle(self):
         # Capturar teclas
         self.root.bind("<Up>", move)
         self.root.bind("<Down>", move)
         self.root.bind("<Left>", move)
         self.root.bind("<Right>",move)
+        self.root.bind("<space>",move)
     def loadmaps(self,s:str):
         h=[]
         xy=[]
