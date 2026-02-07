@@ -44,7 +44,14 @@ class game_board:
         self.bitmaps = []
         self.bmp = []   # referência às PhotoImage (IMPORTANTE)
         self.abmp = []
-
+        self.scores=0
+    def score(self,n):
+        self.scores=n
+        self.labels = "score : " + str(self.scores)
+        self.root.title(self.labels)
+    def scoreplus(self,n):
+        self.scores=self.scores+n
+        self.score(self.scores)
     def addbmp(self,x,y,n):
             # desenhar no canvas
             a=self.canvas.create_image(x, y, image=self.bmp[n], anchor="nw")
@@ -133,6 +140,31 @@ class game_board:
             xxx=0         
                 
         self.xy = xy
+    def reportcsv(self):
+        arrays=self.xy
+        xy=[]
+        xxyy=[]
+        xxx=0
+        yyy=0
+        counter=0
+        for b in arrays:
+            xxyy=[]
+            counter=0
+            for c in b:
+            
+                if counter!=0:
+                    print(" , ",end="")
+                
+                
+                print(chr((c & 0xff)+65),end="")
+                counter=counter+1
+                xxx=xxx+1
+            print("")
+            
+            yyy=yyy+1
+            xxx=0         
+                
+        self.xy = xy
 
     def report(self):
         print(self.xy)
@@ -152,6 +184,8 @@ for n in range(10):
 games.addbmp(0,0,bis)        
 games.loadmaps("level.txt")
 games.setxy(0,0,255)
-games.report()
+games.reportcsv()
+games.scoreplus(200)
+games.scoreplus(200)
 games.starts()
 
